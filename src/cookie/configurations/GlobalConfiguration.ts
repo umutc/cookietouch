@@ -136,7 +136,7 @@ export default class GlobalConfiguration {
       lang: this.lang,
       pushBulletAccessToken: this.pushBulletAccessToken,
       showDebugMessages: this.showDebugMessages,
-      themeFile: this.themeFile,
+      themeFile: this.themeFile || '',
       updatesChannel: this.updatesChannel
     };
 

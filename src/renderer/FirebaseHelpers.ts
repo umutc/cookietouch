@@ -4,19 +4,18 @@ import "firebase/database";
 import "firebase/firestore";
 
 export function initialize() {
-  const config = {
-    apiKey: "AIzaSyDWK5MrCUhiluOfj8emZT_ARUpbkzbwKTE",
-    authDomain: "cookietouch-52c0c.firebaseapp.com",
-    databaseURL: "https://cookietouch-52c0c.firebaseio.com",
-    messagingSenderId: "423749577733",
-    projectId: "cookietouch-52c0c",
-    storageBucket: "cookietouch-52c0c.appspot.com"
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhffdrpzeQfSGZRUhLhyzcWCn9U1zDBhA",
+    appId: "1:632269049877:web:b22ba6c6b00db07452be1c",
+    authDomain: "dofus-touch-dangaza.firebaseapp.com",
+    databaseURL: "https://dofus-touch-dangaza.firebaseio.com",
+    messagingSenderId: "632269049877",
+    projectId: "dofus-touch-dangaza",
+    storageBucket: "dofus-touch-dangaza.appspot.com",
   };
 
-  const app = firebase.initializeApp(config);
-
-  // const settings = { timestampsInSnapshots: true };
-  // app.firestore().settings(settings);
+  const app = firebase.initializeApp(firebaseConfig);
+  app.firestore().settings({ timestampsInSnapshots: true });
 
   return app;
 }
@@ -29,7 +28,16 @@ export async function signin(
     const userCred = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    return userCred.user ? userCred.user.emailVerified : false;
+    if (userCred.user) {
+      if (userCred.user.emailVerified) {
+        return true;
+      } else {
+        await userCred.user.sendEmailVerification();
+        return false;
+      }
+    } else {
+      return false;
+    }
   } catch (error) {
     throw error;
   }

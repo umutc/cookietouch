@@ -26,7 +26,10 @@ class BottomAppBar extends React.Component<
       .firestore()
       .doc("/stats/users")
       .onSnapshot(snap => {
-        const users = snap.data();
+        const users = {
+          ...snap.data(),
+          connected: 0
+        };
         this.setState({ botsConnected: users!.connected });
       });
     const listRef = firebase.database().ref("status");
